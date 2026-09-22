@@ -1,168 +1,3842 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>e-scuela | Student Information & Academic Management</title>
-<style>
-:root{--navy:#a90912;--blue:#c20f19;--sky:#fff4f4;--gold:#d7a84b;--cream:#f5f5f5;--white:#fff;--text:#303030;--muted:#777;--border:#e2e2e2;--green:#3f8b67;--red:#c20f19;--shadow:0 8px 24px rgba(0,0,0,.08)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--cream);color:var(--text)}
-button,input,select{font:inherit}.hidden{display:none!important}
-.login{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#f7f7f7,#fff5f5)}
-.login-card{width:min(420px,92vw);background:white;padding:36px;border-radius:18px;box-shadow:var(--shadow);text-align:center;border-top:5px solid var(--red)}
-.logo{width:64px;height:64px;border-radius:18px;background:var(--navy);color:white;display:grid;place-items:center;margin:0 auto 14px;font-weight:800;font-size:24px}
-.login-card h1{margin:0;color:var(--navy)}.login-card p{color:var(--muted)}
-.field{text-align:left;margin:16px 0}.field label{font-size:16px;font-weight:750;color:#8e080e}.field input,.field select{width:100%;padding:15px 16px;border:1px solid #d9d9d9;border-radius:9px;margin-top:7px;outline:none}
-.primary{background:#c20f19;color:white;border:0;border-radius:9px;padding:13px 22px;cursor:pointer;font-weight:700}.secondary{background:white;color:#9d080e;border:1px solid #d9d9d9;border-radius:9px;padding:11px 18px;cursor:pointer}
-.login-note{font-size:12px;color:var(--muted);margin-top:14px}.error{color:var(--red);font-size:13px}
-.app{display:flex;min-height:100vh}.sidebar{width:350px;background:linear-gradient(180deg,#9b050b,#c20f19);color:white;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 28px}.brand .logo{margin:0;width:52px;height:52px;border-radius:12px;font-size:20px;background:#fff;color:#b20b13}.brand strong{font-size:27px}.brand small{display:block;color:#fff;opacity:.9}
-.nav button{width:100%;text-align:left;background:transparent;border:0;color:#dbe8ef;padding:12px;border-radius:10px;margin:3px 0;cursor:pointer}.nav button:hover{background:rgba(255,255,255,.12);color:white}.nav button.active{background:white;color:#b20b13}.nav .logout{margin-top:20px;color:#ffd0d0}
-.main{margin-left:350px;width:calc(100% - 350px);padding:38px 52px;background:#f5f5f5;min-height:100vh}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.top h2{margin:0;color:#8e080e;font-size:30px}.user{font-size:13px;color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:26px}.card{background:white;border:1px solid #ececec;border-radius:14px;padding:20px;box-shadow:0 5px 16px rgba(0,0,0,.06);border-top:3px solid #c20f19}.card .label{font-size:12px;color:var(--muted)}.card .value{font-size:29px;font-weight:800;color:#98080f;margin-top:7px}
-.panel{background:white;border:1px solid #ececec;border-radius:16px;padding:34px 40px;box-shadow:0 7px 22px rgba(0,0,0,.07);margin-bottom:24px;border-top:4px solid #b40a12}.panel h3{margin-top:0;color:#8e080e;font-size:25px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}th{color:var(--muted);font-size:12px;text-transform:uppercase}tr:hover td{background:#fafcfd}
-.badge{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800}.passed{background:#e4f3eb;color:var(--green)}.failed{background:#fdeaea;color:var(--red)}.dropped{background:#fff1d7;color:#9a6b18}.active-status{background:#eaf4f8;color:var(--blue)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.filters{display:flex;gap:8px;flex-wrap:wrap}.filters input,.filters select{padding:9px;border:1px solid var(--border);border-radius:9px}
-.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.actions{display:flex;gap:8px;margin-top:16px}.chart{height:190px;display:flex;align-items:end;gap:16px;padding:15px 5px;border-bottom:1px solid var(--border)}.bar{flex:1;background:var(--blue);border-radius:7px 7px 0 0;min-height:10px;position:relative}.bar span{position:absolute;bottom:-23px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}
-.report-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.report{border:1px solid var(--border);border-radius:12px;padding:15px;display:flex;justify-content:space-between;align-items:center}
-.toast{position:fixed;right:25px;bottom:25px;background:var(--navy);color:white;padding:12px 16px;border-radius:10px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.2s}.toast.show{opacity:1;transform:none}
-@media(max-width:1200px){.cards{grid-template-columns:repeat(3,1fr)}}@media(max-width:1000px){.cards{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}}@media(max-width:700px){.sidebar{width:72px;padding:16px 8px}.brand strong,.brand small,.nav button span{display:none}.brand{justify-content:center}.main{margin-left:72px;width:calc(100% - 72px);padding:18px}.form-grid,.report-list{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
-@media print{.sidebar,.top .user,.actions,.filters,.no-print{display:none!important}.main{margin:0;width:100%;padding:0}.panel{box-shadow:none}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escuela de Nuestra Señora de la Salette</title>
+
+    <style>
+        :root {
+            --navy: #a90912;
+            --blue: #c20f19;
+            --sky: #fff4f4;
+            --gold: #d7a84b;
+            --cream: #f5f5f5;
+            --white: #fff;
+            --text: #303030;
+            --muted: #777;
+            --border: #e2e2e2;
+            --green: #3f8b67;
+            --red: #c20f19;
+            --shadow: 0 8px 24px rgba(0, 0, 0, .08)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text)
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+
+        /* =========================
+   LOGIN
+========================= */
+
+        .login {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top left,
+                    rgba(194, 15, 25, .08),
+                    transparent 35%),
+                linear-gradient(135deg,
+                    #f7f7f7,
+                    #fff5f5);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 460px;
+            background: white;
+            padding: 38px;
+            border-radius: 20px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .10);
+            text-align: center;
+            border-top: 5px solid var(--red);
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: var(--navy);
+            color: white;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 14px;
+            font-weight: 800;
+            font-size: 24px
+        }
+
+        .login-card h1 {
+            margin: 0 0 22px;
+            color: var(--navy);
+            font-size: 25px;
+            line-height: 1.25
+        }
+
+        .field {
+            text-align: left;
+            margin: 15px 0
+        }
+
+        .field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 750;
+            color: #8e080e
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d9d9d9;
+            border-radius: 10px;
+            margin-top: 7px;
+            outline: none;
+            background: #fff;
+            color: #303030
+        }
+
+        .field input {
+            height: 50px;
+            font-size: 16px
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(194, 15, 25, .08)
+        }
+
+        .primary {
+            background: #c20f19;
+            color: white;
+            border: 0;
+            border-radius: 9px;
+            padding: 13px 22px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s
+        }
+
+        .primary:hover {
+            background: #a90912
+        }
+
+        .secondary {
+            background: white;
+            color: #9d080e;
+            border: 1px solid #d9d9d9;
+            border-radius: 9px;
+            padding: 11px 18px;
+            cursor: pointer
+        }
+
+        .login-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 0 0 22px
+        }
+
+        .login-type button {
+            min-height: 48px;
+            padding: 10px 8px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #8e080e;
+            transition: .2s
+        }
+
+        .login-type button:hover {
+            border-color: #c20f19;
+            background: #fff8f8
+        }
+
+        .login-type button.active {
+            background: #c20f19;
+            color: white;
+            border-color: #c20f19
+        }
+
+        .login-button {
+            width: 100%;
+            min-height: 50px;
+            margin-top: 8px;
+            font-size: 16px
+        }
+
+        .login-note {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 14px
+        }
+
+        .error {
+            min-height: 18px;
+            color: var(--red);
+            font-size: 13px;
+            margin-top: 10px
+        }
+
+
+        /* =========================
+   APPLICATION
+========================= */
+
+        .app {
+            display: flex;
+            min-height: 100vh
+        }
+
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(180deg, #9b050b, #c20f19);
+            color: white;
+            padding: 24px 16px;
+            position: fixed;
+            inset: 0 auto 0 0;
+            overflow-y: auto;
+            z-index: 20
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px 28px
+        }
+
+        .brand .logo {
+            margin: 0;
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            font-size: 20px;
+            background: #fff;
+            color: #b20b13
+        }
+
+        .brand strong {
+            font-size: 25px
+        }
+
+        .brand small {
+            display: block;
+            color: #fff;
+            opacity: .9
+        }
+
+        .nav button {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: 0;
+            color: #dbe8ef;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 3px 0;
+            cursor: pointer
+        }
+
+        .nav button:hover {
+            background: rgba(255, 255, 255, .12);
+            color: white
+        }
+
+        .nav button.active {
+            background: white;
+            color: #b20b13
+        }
+
+        .nav .logout {
+            margin-top: 20px;
+            color: #ffd0d0
+        }
+
+        .main {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+            padding: 38px 52px;
+            background: #f5f5f5;
+            min-height: 100vh
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px
+        }
+
+        .top h2 {
+            margin: 0;
+            color: #8e080e;
+            font-size: 30px
+        }
+
+        .user {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 26px
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ececec;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 5px 16px rgba(0, 0, 0, .06);
+            border-top: 3px solid #c20f19
+        }
+
+        .card .label {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .card .value {
+            font-size: 29px;
+            font-weight: 800;
+            color: #98080f;
+            margin-top: 7px
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #ececec;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 7px 22px rgba(0, 0, 0, .07);
+            margin-bottom: 24px;
+            border-top: 4px solid #b40a12
+        }
+
+        .panel h3 {
+            margin-top: 0;
+            color: #8e080e;
+            font-size: 25px
+        }
+
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        th,
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 13px
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase
+        }
+
+        tr:hover td {
+            background: #fafcfd
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800
+        }
+
+        .passed {
+            background: #e4f3eb;
+            color: var(--green)
+        }
+
+        .failed {
+            background: #fdeaea;
+            color: var(--red)
+        }
+
+        .dropped {
+            background: #fff1d7;
+            color: #9a6b18
+        }
+
+        .active-status {
+            background: #eaf4f8;
+            color: var(--blue)
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .filters input,
+        .filters select {
+            padding: 9px;
+            border: 1px solid var(--border);
+            border-radius: 9px
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap
+        }
+
+        .chart {
+            height: 190px;
+            display: flex;
+            align-items: end;
+            gap: 16px;
+            padding: 15px 5px;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto
+        }
+
+        .bar {
+            flex: 1;
+            min-width: 35px;
+            background: var(--blue);
+            border-radius: 7px 7px 0 0;
+            min-height: 10px;
+            position: relative
+        }
+
+        .bar span {
+            position: absolute;
+            bottom: -23px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: var(--muted);
+            white-space: nowrap
+        }
+
+        .report-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px
+        }
+
+        .report {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px
+        }
+
+        .student-welcome {
+            background: linear-gradient(135deg, #a90912, #c20f19);
+            color: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px
+        }
+
+        .student-welcome h2 {
+            margin: 0 0 8px;
+            color: white
+        }
+
+        .student-welcome p {
+            margin: 0;
+            opacity: .9
+        }
+
+        .profile-box {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px
+        }
+
+        .profile-item {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #fafafa
+        }
+
+        .profile-item small {
+            color: var(--muted);
+            display: block;
+            margin-bottom: 5px
+        }
+
+        .profile-item strong {
+            color: #8e080e;
+            word-break: break-word
+        }
+
+        .portal-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .portal-card {
+            background: white;
+            border: 1px solid #ececec;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 5px 16px rgba(0, 0, 0, .06);
+            border-top: 3px solid #c20f19
+        }
+
+        .portal-card small {
+            color: var(--muted);
+            display: block;
+            margin-bottom: 6px
+        }
+
+        .portal-card strong {
+            color: #8e080e;
+            font-size: 20px
+        }
+
+        .schedule-table td,
+        .schedule-table th {
+            white-space: nowrap
+        }
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            background: var(--navy);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: .2s;
+            z-index: 100
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: none
+        }
+
+
+        /* =========================
+   RESPONSIVE
+========================= */
+
+        @media(max-width:1200px) {
+
+            .cards {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .main {
+                padding: 32px
+            }
+
+        }
+
+        @media(max-width:1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .grid2 {
+                grid-template-columns: 1fr
+            }
+
+        }
+
+        @media(max-width:700px) {
+
+            .sidebar {
+                width: 72px;
+                padding: 16px 8px
+            }
+
+            .brand strong,
+            .brand small,
+            .nav button span {
+                display: none
+            }
+
+            .brand {
+                justify-content: center
+            }
+
+            .main {
+                margin-left: 72px;
+                width: calc(100% - 72px);
+                padding: 18px
+            }
+
+            .form-grid,
+            .report-list,
+            .profile-box,
+            .portal-cards {
+                grid-template-columns: 1fr
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .top {
+                align-items: flex-start;
+                gap: 10px;
+                flex-direction: column
+            }
+
+            .panel {
+                padding: 20px
+            }
+
+            .panel h3 {
+                font-size: 21px
+            }
+
+            .section-head {
+                align-items: flex-start
+            }
+
+            .report {
+                flex-direction: column;
+                align-items: flex-start
+            }
+
+        }
+
+        @media(max-width:600px) {
+
+            .login {
+                padding: 18px;
+                align-items: center
+            }
+
+            .login-card {
+                max-width: 100%;
+                padding: 28px 22px;
+                border-radius: 17px
+            }
+
+            .login-card h1 {
+                font-size: 21px;
+                margin-bottom: 20px
+            }
+
+            .login-type {
+                grid-template-columns: 1fr;
+                gap: 9px
+            }
+
+            .login-type button {
+                width: 100%;
+                min-height: 48px
+            }
+
+            .field {
+                margin: 14px 0
+            }
+
+            .field input {
+                height: 50px
+            }
+
+            .cards {
+                grid-template-columns: 1fr
+            }
+
+            .main {
+                padding: 14px
+            }
+
+            .student-welcome {
+                padding: 22px
+            }
+
+        }
+
+        @media(max-width:450px) {
+
+            .sidebar {
+                width: 60px;
+                padding: 12px 6px
+            }
+
+            .brand .logo {
+                width: 44px;
+                height: 44px;
+                font-size: 18px
+            }
+
+            .nav button {
+                text-align: center;
+                padding: 11px 5px
+            }
+
+            .main {
+                margin-left: 60px;
+                width: calc(100% - 60px);
+                padding: 12px
+            }
+
+            .top h2 {
+                font-size: 23px
+            }
+
+            .panel {
+                padding: 16px;
+                border-radius: 13px
+            }
+
+            .login {
+                padding: 12px
+            }
+
+            .login-card {
+                padding: 24px 17px
+            }
+
+            .login-card h1 {
+                font-size: 19px
+            }
+
+            .logo {
+                width: 58px;
+                height: 58px;
+                font-size: 22px;
+                border-radius: 16px
+            }
+
+        }
+
+        @media(max-height:600px) {
+
+            .login {
+                align-items: flex-start;
+                padding-top: 15px;
+                overflow-y: auto
+            }
+
+        }
+
+
+        /* =========================
+   PRINT
+========================= */
+
+        @media print {
+
+            .sidebar,
+            .top .user,
+            .actions,
+            .filters,
+            .no-print {
+                display: none !important
+            }
+
+            .main {
+                margin: 0;
+                width: 100%;
+                padding: 0
+            }
+
+            .panel {
+                box-shadow: none
+            }
+
+        }
+    </style>
 </head>
+
 <body>
-<div id="login" class="login">
-  <div class="login-card">
-    <div class="logo">e</div>
-    <h1>e-scuela</h1>
-    <p>Student Information & Academic Management System</p>
-    <div class="field"><label>Username</label><input id="username" value="admin"></div>
-    <div class="field"><label>Password</label><input id="password" type="password" value="admin123"></div>
-    <button class="primary" style="width:100%" onclick="login()">Login</button>
-    <div id="loginError" class="error"></div>
-    <div class="login-note">Prototype demo • Admin / admin123</div>
-  </div>
+
+
+    <!-- =========================
+     LOGIN
+========================= -->
+
+    <div id="login" class="login">
+
+        <div class="login-card">
+
+            <!-- LOGO - UNCHANGED -->
+            <div class="logo">e</div>
+
+            <h1>Escuela de Nuestra Señora de la Salette</h1>
+
+            <div class="login-type">
+
+                <button id="facultyBtn" class="active" onclick="selectLoginType('faculty')">
+                    Administrator / Faculty
+                </button>
+
+                <button id="studentBtn" onclick="selectLoginType('student')">
+                    Student
+                </button>
+
+            </div>
+
+            <div class="field">
+
+                <label>Username</label>
+
+                <input id="username" type="text" autocomplete="username" placeholder="Enter username">
+
+            </div>
+
+            <div class="field">
+
+                <label>Password</label>
+
+                <input id="password" type="password" autocomplete="current-password" placeholder="Enter password">
+
+            </div>
+
+            <button class="primary login-button" onclick="login()">
+                Login
+            </button>
+
+            <div id="loginError" class="error"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+     APPLICATION
+========================= -->
+
+    <div id="app" class="app hidden">
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="logo">e</div>
+
+                <div>
+                    <strong>e-scuela</strong>
+                    <small id="systemRole">School Management</small>
+                </div>
+
+            </div>
+
+            <div class="nav" id="navigation"></div>
+
+        </aside>
+
+
+        <main class="main">
+
+            <div class="top">
+
+                <h2 id="pageTitle">Dashboard</h2>
+
+                <div class="user">
+                    Logged in as <b id="loggedUser">User</b>
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+     ADMIN DASHBOARD
+========================= -->
+
+            <section id="dashboard" class="page">
+
+                <div class="cards">
+
+                    <div class="card">
+                        <div class="label">Total Students</div>
+                        <div class="value" id="totalStudents">0</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">Enrolled Students</div>
+                        <div class="value" id="enrolledStudents">0</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">Grade 12 Students</div>
+                        <div class="value" id="graduatingStudents">0</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">Failed Subjects</div>
+                        <div class="value" id="failedCount">0</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="label">Dropped Subjects</div>
+                        <div class="value" id="droppedCount">0</div>
+                    </div>
+
+                </div>
+
+
+                <div class="grid2">
+
+                    <div class="panel">
+
+                        <h3>Students</h3>
+
+                        <div id="recentStudents"></div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h3>System Overview</h3>
+
+                        <p style="color:var(--muted)">
+                            e-scuela centralizes student profiles, enrollment,
+                            grades, academic performance, subject status and
+                            reports for authorized administrators and faculty.
+                        </p>
+
+                        <button class="primary" onclick="showPage('students')">
+                            Manage Students
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENTS
+========================= -->
+
+            <section id="students" class="page hidden">
+
+                <div class="panel">
+
+                    <div class="section-head">
+
+                        <h3>Student Information</h3>
+
+                        <button class="primary" onclick="openStudentForm()">
+                            + Add Student
+                        </button>
+
+                    </div>
+
+                    <div class="filters">
+
+                        <input id="studentSearch" placeholder="Search name or ID..." oninput="renderStudents">
+
+                        <select id="studentGrade" onchange="renderStudents()">
+
+                            <option value="">All Grade Levels</option>
+
+                            <option>Grade 11</option>
+
+                            <option>Grade 12</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Grade</th>
+                                    <th>Section</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="studentTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div id="studentForm" class="panel hidden">
+
+                    <h3>Add Student</h3>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label>Student ID</label>
+                            <input id="fId">
+                        </div>
+
+                        <div class="field">
+                            <label>Full Name</label>
+                            <input id="fName">
+                        </div>
+
+                        <div class="field">
+
+                            <label>Grade</label>
+
+                            <select id="fGrade">
+                                <option>Grade 11</option>
+                                <option>Grade 12</option>
+                            </select>
+
+                        </div>
+
+                        <div class="field">
+                            <label>Section</label>
+                            <input id="fSection">
+                        </div>
+
+                        <div class="field">
+                            <label>Contact</label>
+                            <input id="fContact">
+                        </div>
+
+                        <div class="field">
+                            <label>Guardian</label>
+                            <input id="fGuardian">
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <button class="primary" onclick="saveStudent()">
+                            Save Student
+                        </button>
+
+                        <button class="secondary" onclick="closeStudentForm()">
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     ENROLLMENT
+========================= -->
+
+            <section id="enrollment" class="page hidden">
+
+                <div class="panel">
+
+                    <div class="section-head">
+
+                        <h3>Enrollment</h3>
+
+                        <button class="primary" onclick="saveEnrollment()">
+                            Save Enrollment
+                        </button>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label>Student</label>
+                            <select id="eStudent"></select>
+                        </div>
+
+                        <div class="field">
+                            <label>School Year</label>
+                            <input id="eSY" value="2026-2027">
+                        </div>
+
+                        <div class="field">
+
+                            <label>Grade Level</label>
+
+                            <select id="eGrade">
+                                <option>Grade 11</option>
+                                <option>Grade 12</option>
+                            </select>
+
+                        </div>
+
+                        <div class="field">
+                            <label>Strand / Course</label>
+                            <input id="eStrand" value="STEM">
+                        </div>
+
+                        <div class="field">
+                            <label>Section</label>
+                            <input id="eSection" value="STEM-A">
+                        </div>
+
+                        <div class="field">
+                            <label>Enrollment Date</label>
+                            <input id="eDate" type="date">
+                        </div>
+
+                        <div class="field">
+
+                            <label>Status</label>
+
+                            <select id="eStatus">
+                                <option>Enrolled</option>
+                                <option>Pending</option>
+                                <option>Dropped</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <h3>Enrollment Records</h3>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student</th>
+                                    <th>School Year</th>
+                                    <th>Grade</th>
+                                    <th>Strand</th>
+                                    <th>Section</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="enrollmentTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     GRADES
+========================= -->
+
+            <section id="grades" class="page hidden">
+
+                <div class="panel">
+
+                    <div class="section-head">
+
+                        <h3>Grades Management</h3>
+
+                        <select id="gradeStudent" onchange="renderGrades()"></select>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>1st</th>
+                                    <th>2nd</th>
+                                    <th>3rd</th>
+                                    <th>4th</th>
+                                    <th>Final</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="gradeTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button class="primary" onclick="saveGrades()">
+                            Save Grades
+                        </button>
+
+                        <button class="secondary" onclick="showPage('status')">
+                            View Subject Status
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     PERFORMANCE
+========================= -->
+
+            <section id="performance" class="page hidden">
+
+                <div class="grid2">
+
+                    <div class="panel">
+
+                        <h3>Academic Summary</h3>
+
+                        <div id="performanceSummary"></div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h3>Performance by Subject</h3>
+
+                        <div id="performanceChart" class="chart"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STATUS
+========================= -->
+
+            <section id="status" class="page hidden">
+
+                <div class="panel">
+
+                    <div class="section-head">
+
+                        <h3>Subject Status</h3>
+
+                        <div class="filters">
+
+                            <select id="statusFilter" onchange="renderStatus()">
+
+                                <option value="">All Status</option>
+                                <option>Passed</option>
+                                <option>Failed</option>
+                                <option>Dropped</option>
+
+                            </select>
+
+
+                            <select id="statusSubject" onchange="renderStatus()">
+
+                                <option value="">All Subjects</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Subject</th>
+                                    <th>Final Grade</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="statusTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     REPORTS
+========================= -->
+
+            <section id="reports" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>Reports</h3>
+
+                    <div class="report-list">
+
+                        <div class="report">
+
+                            <span>Student Academic Report</span>
+
+                            <button class="secondary" onclick="printReport('Student Academic Report')">
+                                View / Print
+                            </button>
+
+                        </div>
+
+                        <div class="report">
+
+                            <span>Enrollment Report</span>
+
+                            <button class="secondary" onclick="printReport('Enrollment Report')">
+                                View / Print
+                            </button>
+
+                        </div>
+
+                        <div class="report">
+
+                            <span>Grade Report</span>
+
+                            <button class="secondary" onclick="printReport('Grade Report')">
+                                View / Print
+                            </button>
+
+                        </div>
+
+                        <div class="report">
+
+                            <span>Subject Status Report</span>
+
+                            <button class="secondary" onclick="printReport('Subject Status Report')">
+                                View / Print
+                            </button>
+
+                        </div>
+
+                        <div class="report">
+
+                            <span>Student Masterlist</span>
+
+                            <button class="secondary" onclick="printReport('Student Masterlist')">
+                                View / Print
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     USERS
+========================= -->
+
+            <section id="users" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>User Management</h3>
+
+                    <p style="color:var(--muted)">
+                        Administrator and faculty accounts.
+                    </p>
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>admin</td>
+                                <td>Administrator</td>
+                                <td>Administrator</td>
+                                <td>
+                                    <span class="badge passed">Active</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>faculty</td>
+                                <td>Faculty</td>
+                                <td>Faculty</td>
+                                <td>
+                                    <span class="badge passed">Active</span>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     SETTINGS
+========================= -->
+
+            <section id="settings" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>Settings</h3>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+
+                            <label>School Name</label>
+
+                            <input value="Escuela de Nuestra Señora de la Salette">
+
+                        </div>
+
+                        <div class="field">
+
+                            <label>Current School Year</label>
+
+                            <input value="2026-2027">
+
+                        </div>
+
+                    </div>
+
+                    <button class="primary" onclick="toast('Settings saved in prototype.')">
+                        Save Settings
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT HOME
+========================= -->
+
+            <section id="studentHome" class="page hidden">
+
+                <div class="student-welcome">
+
+                    <h2 id="studentWelcomeName">
+                        Welcome, Student
+                    </h2>
+
+                    <p>
+                        Welcome to your e-scuela student portal.
+                    </p>
+
+                </div>
+
+
+                <div class="grid2">
+
+                    <div class="panel">
+
+                        <h3>My Information</h3>
+
+                        <div id="studentProfile" class="profile-box">
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <h3>Academic Summary</h3>
+
+                        <div id="mySummary"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT PROFILE
+========================= -->
+
+            <section id="studentProfilePage" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Profile</h3>
+
+                    <div id="myProfileDetails" class="profile-box"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT ENROLLMENT
+========================= -->
+
+            <section id="studentEnrollment" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Enrollment</h3>
+
+                    <div id="myEnrollmentDetails" class="portal-cards"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT SUBJECTS
+========================= -->
+
+            <section id="studentSubjects" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Subjects</h3>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Final Grade</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="mySubjectsTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT REPORTS
+========================= -->
+
+            <section id="studentReports" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Reports</h3>
+
+                    <div class="report-list">
+
+                        <div class="report">
+                            <span>My Academic Report</span>
+                            <button class="secondary" onclick="printStudentReport('My Academic Report')">View /
+                                Print</button>
+                        </div>
+
+                        <div class="report">
+                            <span>My Enrollment Report</span>
+                            <button class="secondary" onclick="printStudentReport('My Enrollment Report')">View /
+                                Print</button>
+                        </div>
+
+                        <div class="report">
+                            <span>My Grade Report</span>
+                            <button class="secondary" onclick="printStudentReport('My Grade Report')">View /
+                                Print</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT CLASS SCHEDULE
+========================= -->
+
+            <section id="studentSchedule" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>Class Schedule</h3>
+
+                    <div class="table-wrap">
+
+                        <table class="schedule-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                    <th>Room</th>
+                                    <th>Instructor</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="myScheduleTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT GRADES
+========================= -->
+
+            <section id="studentGrades" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Grades</h3>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>1st</th>
+                                    <th>2nd</th>
+                                    <th>3rd</th>
+                                    <th>4th</th>
+                                    <th>Final</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="myGradeTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT PERFORMANCE
+========================= -->
+
+            <section id="studentPerformance" class="page hidden">
+
+                <div class="grid2">
+
+                    <div class="panel">
+
+                        <h3>My Academic Performance</h3>
+
+                        <div id="myPerformanceSummary"></div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <h3>Performance by Subject</h3>
+
+                        <div id="myPerformanceChart" class="chart"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+     STUDENT STATUS
+========================= -->
+
+            <section id="studentStatus" class="page hidden">
+
+                <div class="panel">
+
+                    <h3>My Subject Status</h3>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Final Grade</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="myStatusTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <div id="toast" class="toast"></div>
+
+
+    <script>
+
+        /* =========================
+           STUDENT DATA
+        ========================= */
+
+        const defaultData = {
+
+            students: [
+
+                {
+                    id: "2026-001",
+                    name: "CATHERINE A. ROSARIO",
+                    username: "catherine",
+                    password: "cath123",
+                    grade: "Grade 12",
+                    section: "STEM-A",
+                    status: "Active",
+                    contact: "09123456789",
+                    guardian: "Parent / Guardian"
+                },
+
+                {
+                    id: "2026-002",
+                    name: "ACHILLES NERO C. AGUILA",
+                    username: "achilles",
+                    password: "ach123",
+                    grade: "Grade 11",
+                    section: "STEM-A",
+                    status: "Active",
+                    contact: "09123456780",
+                    guardian: "Parent / Guardian"
+                },
+
+                {
+                    id: "2026-003",
+                    name: "PRINCE CARL B. BARTOLOME",
+                    username: "prince",
+                    password: "prince123",
+                    grade: "Grade 12",
+                    section: "STEM-A",
+                    status: "Active",
+                    contact: "09123456781",
+                    guardian: "Parent / Guardian"
+                },
+
+                {
+                    id: "2026-004",
+                    name: "BLUE BARRON B. BAMBILLA",
+                    username: "blue",
+                    password: "blue123",
+                    grade: "Grade 11",
+                    section: "HUMSS-A",
+                    status: "Active",
+                    contact: "09123456782",
+                    guardian: "Parent / Guardian"
+                },
+
+                {
+                    id: "2026-005",
+                    name: "JAYSON J. ESQUEJO",
+                    username: "jayson",
+                    password: "jayson123",
+                    grade: "Grade 12",
+                    section: "STEM-A",
+                    status: "Active",
+                    contact: "09123456783",
+                    guardian: "Parent / Guardian"
+                },
+
+                {
+                    id: "2026-006",
+                    name: "CARL ANTHONY V. DE VERA",
+                    username: "carl",
+                    password: "carl123",
+                    grade: "Grade 12",
+                    section: "STEM-A",
+                    status: "Active",
+                    contact: "09123456784",
+                    guardian: "Parent / Guardian"
+                }
+
+            ],
+
+            enrollments: [],
+
+            grades: {
+
+                "2026-001": [
+                    ["Mathematics", 88, 90, 89, 91],
+                    ["English", 91, 90, 92, 93],
+                    ["Science", 90, 91, 89, 92],
+                    ["Filipino", 92, 91, 90, 93],
+                    ["PE", 95, 94, 96, 95],
+                    ["ICT", 89, 90, 91, 90],
+                    ["Research", 90, 92, 91, 93],
+                    ["History", 78, 80, 79, 81]
+                ],
+
+                "2026-002": [
+                    ["Mathematics", 85, 87, 88, 86],
+                    ["English", 90, 91, 92, 91],
+                    ["Science", 88, 89, 90, 91],
+                    ["Filipino", 91, 90, 92, 93],
+                    ["PE", 94, 95, 94, 96],
+                    ["ICT", 89, 88, 90, 91],
+                    ["History", 86, 87, 88, 89]
+                ],
+
+                "2026-003": [
+                    ["Mathematics", 92, 91, 93, 94],
+                    ["English", 90, 92, 91, 93],
+                    ["Science", 94, 93, 95, 94],
+                    ["Filipino", 91, 92, 90, 93],
+                    ["PE", 96, 95, 97, 96],
+                    ["ICT", 93, 92, 94, 95]
+                ],
+
+                "2026-004": [
+                    ["Mathematics", 84, 85, 86, 87],
+                    ["English", 88, 89, 90, 89],
+                    ["Science", 86, 87, 88, 89],
+                    ["Filipino", 90, 91, 90, 92],
+                    ["PE", 94, 95, 94, 95],
+                    ["ICT", 87, 88, 89, 90]
+                ],
+
+                "2026-005": [
+                    ["Mathematics", 90, 91, 92, 93],
+                    ["English", 89, 90, 91, 92],
+                    ["Science", 91, 92, 93, 94],
+                    ["Filipino", 92, 91, 93, 94],
+                    ["PE", 95, 96, 95, 97],
+                    ["ICT", 90, 91, 92, 93]
+                ],
+
+                "2026-006": [
+                    ["Mathematics", 87, 89, 88, 90],
+                    ["English", 91, 92, 90, 93],
+                    ["Science", 89, 90, 91, 92],
+                    ["Filipino", 90, 91, 92, 93],
+                    ["PE", 94, 95, 96, 95],
+                    ["ICT", 88, 90, 89, 91]
+                ]
+
+            }
+
+        };
+
+
+        /* =========================
+           DATA STORAGE
+        ========================= */
+
+        let data =
+            JSON.parse(localStorage.getItem("eScuelaData")) ||
+            defaultData;
+
+        /* Keep the six default student accounts available even when
+           older e-scuela data is already saved in localStorage. */
+        if (!Array.isArray(data.students)) {
+            data.students = [];
+        }
+
+        if (!data.grades || typeof data.grades !== "object") {
+            data.grades = {};
+        }
+
+        defaultData.students.forEach(defaultStudent => {
+
+            const existingStudent =
+                data.students.find(
+                    s => s.id === defaultStudent.id
+                );
+
+            if (existingStudent) {
+
+                existingStudent.name = defaultStudent.name;
+                existingStudent.username = defaultStudent.username;
+                existingStudent.password = defaultStudent.password;
+                existingStudent.grade = defaultStudent.grade;
+                existingStudent.section = defaultStudent.section;
+                existingStudent.status = defaultStudent.status;
+                existingStudent.contact = defaultStudent.contact;
+                existingStudent.guardian = defaultStudent.guardian;
+
+            } else {
+
+                data.students.push({
+                    ...defaultStudent
+                });
+
+            }
+
+            if (!Array.isArray(data.grades[defaultStudent.id])) {
+                data.grades[defaultStudent.id] =
+                    defaultData.grades[defaultStudent.id] || [];
+            }
+
+        });
+
+        localStorage.setItem(
+            "eScuelaData",
+            JSON.stringify(data)
+        );
+
+        let loginType = "faculty";
+        let currentUser = null;
+        let currentStudent = null;
+
+
+        function persist() {
+
+            localStorage.setItem(
+                "eScuelaData",
+                JSON.stringify(data)
+            );
+
+        }
+
+
+        /* =========================
+           LOGIN TYPE
+        ========================= */
+
+        function selectLoginType(type) {
+
+            loginType = type;
+
+            document
+                .getElementById("facultyBtn")
+                .classList.toggle(
+                    "active",
+                    type === "faculty"
+                );
+
+            document
+                .getElementById("studentBtn")
+                .classList.toggle(
+                    "active",
+                    type === "student"
+                );
+
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("loginError").textContent = "";
+
+        }
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        function login() {
+
+            const username =
+                document.getElementById("username").value.trim().toLowerCase();
+
+            const password =
+                document.getElementById("password").value.trim();
+
+            if (!username || !password) {
+
+                document.getElementById("loginError")
+                    .textContent =
+                    "Please enter your username and password.";
+
+                return;
+
+            }
+
+
+            if (loginType === "faculty") {
+
+                if (
+                    username === "admin" &&
+                    password === "admin123"
+                ) {
+
+                    currentUser = {
+                        name: "Administrator",
+                        role: "Administrator"
+                    };
+
+                    openFacultySystem();
+
+                    return;
+
+                }
+
+
+                if (
+                    username === "faculty" &&
+                    password === "faculty123"
+                ) {
+
+                    currentUser = {
+                        name: "Faculty",
+                        role: "Faculty"
+                    };
+
+                    openFacultySystem();
+
+                    return;
+
+                }
+
+            }
+
+            else {
+
+                const student =
+                    data.students.find(
+                        s =>
+                            String(s.username).trim().toLowerCase() === username &&
+                            String(s.password).trim() === password
+                    );
+
+                if (student) {
+
+                    currentStudent = student;
+
+                    openStudentSystem();
+
+                    return;
+
+                }
+
+            }
+
+
+            document.getElementById("loginError")
+                .textContent =
+                "Invalid username or password.";
+
+        }
+
+
+        /* =========================
+           FACULTY SYSTEM
+        ========================= */
+
+        function openFacultySystem() {
+
+            document
+                .getElementById("login")
+                .classList.add("hidden");
+
+            document
+                .getElementById("app")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("loggedUser")
+                .textContent =
+                currentUser.name +
+                " (" +
+                currentUser.role +
+                ")";
+
+            document
+                .getElementById("systemRole")
+                .textContent =
+                currentUser.role;
+
+            buildFacultyNavigation();
+
+            showPage("dashboard");
+
+        }
+
+
+        /* =========================
+           STUDENT SYSTEM
+        ========================= */
+
+        function openStudentSystem() {
+
+            document
+                .getElementById("login")
+                .classList.add("hidden");
+
+            document
+                .getElementById("app")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("loggedUser")
+                .textContent =
+                currentStudent.name;
+
+            document
+                .getElementById("systemRole")
+                .textContent =
+                "Student Portal";
+
+            buildStudentNavigation();
+
+            showPage("studentHome");
+
+            renderStudentPortal();
+
+        }
+
+
+        /* =========================
+           FACULTY NAVIGATION
+        ========================= */
+
+        function buildFacultyNavigation() {
+
+            document.getElementById("navigation").innerHTML = `
+
+<button
+data-page="dashboard"
+onclick="showPage('dashboard')">
+▦ <span>Dashboard</span>
+</button>
+
+<button
+data-page="students"
+onclick="showPage('students')">
+♙ <span>Student Information</span>
+</button>
+
+<button
+data-page="enrollment"
+onclick="showPage('enrollment')">
+▤ <span>Enrollment</span>
+</button>
+
+<button
+data-page="grades"
+onclick="showPage('grades')">
+✓ <span>Grades</span>
+</button>
+
+<button
+data-page="performance"
+onclick="showPage('performance')">
+◒ <span>Academic Performance</span>
+</button>
+
+<button
+data-page="status"
+onclick="showPage('status')">
+● <span>Subject Status</span>
+</button>
+
+<button
+data-page="reports"
+onclick="showPage('reports')">
+▥ <span>Reports</span>
+</button>
+
+<button
+data-page="users"
+onclick="showPage('users')">
+♙ <span>User Management</span>
+</button>
+
+<button
+data-page="settings"
+onclick="showPage('settings')">
+⚙ <span>Settings</span>
+</button>
+
+<button
+class="logout"
+onclick="logout()">
+↪ <span>Logout</span>
+</button>
+
+`;
+
+        }
+
+
+        /* =========================
+           STUDENT NAVIGATION
+        ========================= */
+
+        function buildStudentNavigation() {
+
+            document.getElementById("navigation").innerHTML = `
+
+<button
+data-page="studentHome"
+onclick="showPage('studentHome')">
+▦ <span>My Dashboard</span>
+</button>
+
+<button
+data-page="studentProfilePage"
+onclick="showPage('studentProfilePage')">
+♙ <span>My Profile</span>
+</button>
+
+<button
+data-page="studentEnrollment"
+onclick="showPage('studentEnrollment')">
+▤ <span>My Enrollment</span>
+</button>
+
+<button
+data-page="studentSubjects"
+onclick="showPage('studentSubjects')">
+● <span>My Subjects</span>
+</button>
+
+<button
+data-page="studentGrades"
+onclick="showPage('studentGrades')">
+✓ <span>My Grades</span>
+</button>
+
+<button
+data-page="studentPerformance"
+onclick="showPage('studentPerformance')">
+◒ <span>Academic Performance</span>
+</button>
+
+<button
+data-page="studentStatus"
+onclick="showPage('studentStatus')">
+◆ <span>Subject Status</span>
+</button>
+
+<button
+data-page="studentSchedule"
+onclick="showPage('studentSchedule')">
+◷ <span>Class Schedule</span>
+</button>
+
+<button
+data-page="studentReports"
+onclick="showPage('studentReports')">
+▥ <span>Reports</span>
+</button>
+
+<button
+class="logout"
+onclick="logout()">
+↪ <span>Logout</span>
+</button>
+
+`;
+
+        }
+
+
+        /* =========================
+           PAGE TITLES
+        ========================= */
+
+        const titles = {
+
+            dashboard: "Dashboard",
+            students: "Student Information",
+            enrollment: "Enrollment",
+            grades: "Grades",
+            performance: "Academic Performance",
+            status: "Subject Status",
+            reports: "Reports",
+            users: "User Management",
+            settings: "Settings",
+
+            studentHome: "My Dashboard",
+            studentProfilePage: "My Profile",
+            studentEnrollment: "My Enrollment",
+            studentSubjects: "My Subjects",
+            studentGrades: "My Grades",
+            studentPerformance: "My Academic Performance",
+            studentStatus: "My Subject Status",
+            studentSchedule: "Class Schedule",
+            studentReports: "Reports"
+
+        };
+
+
+        function showPage(page) {
+
+            document
+                .querySelectorAll(".page")
+                .forEach(
+                    x => x.classList.add("hidden")
+                );
+
+            const selected =
+                document.getElementById(page);
+
+            if (selected)
+                selected.classList.remove("hidden");
+
+            document
+                .getElementById("pageTitle")
+                .textContent =
+                titles[page] || "Dashboard";
+
+            document
+                .querySelectorAll(".nav button")
+                .forEach(
+                    x =>
+                        x.classList.toggle(
+                            "active",
+                            x.dataset.page === page
+                        )
+                );
+
+            if (loginType === "faculty") {
+
+                renderAll();
+
+            }
+
+            else {
+
+                renderStudentPortal();
+
+            }
+
+        }
+
+
+        /* =========================
+           GENERAL FUNCTIONS
+        ========================= */
+
+        function statusOf(g) {
+
+            if (g === null || g === "")
+                return "Pending";
+
+            if (g >= 75)
+                return "Passed";
+
+            return "Failed";
+
+        }
+
+
+        function calc(g) {
+
+            const vals =
+                g.slice(1).map(Number);
+
+            return Math.round(
+                vals.reduce(
+                    (a, b) => a + b,
+                    0
+                ) / vals.length
+            );
+
+        }
+
+
+        /* =========================
+           ADMIN DASHBOARD
+        ========================= */
+
+        function renderDashboard() {
+
+            document
+                .getElementById("totalStudents")
+                .textContent =
+                data.students.length;
+
+            document
+                .getElementById("enrolledStudents")
+                .textContent =
+                data.students.filter(
+                    s => s.status === "Active"
+                ).length;
+
+            document
+                .getElementById("graduatingStudents")
+                .textContent =
+                data.students.filter(
+                    s => s.grade === "Grade 12"
+                ).length;
+
+            let all =
+                Object.values(data.grades).flat();
+
+            document
+                .getElementById("failedCount")
+                .textContent =
+                all.filter(
+                    g => statusOf(calc(g)) === "Failed"
+                ).length;
+
+            document
+                .getElementById("droppedCount")
+                .textContent =
+                0;
+
+            document
+                .getElementById("recentStudents")
+                .innerHTML =
+                data.students
+                    .map(
+                        s => `
+<p>
+<b>${s.name}</b>
+<br>
+<small>
+${s.id} • ${s.grade} • ${s.section}
+</small>
+</p>
+`
+                    )
+                    .join("");
+
+        }
+
+
+        /* =========================
+           STUDENT INFORMATION
+        ========================= */
+
+        function renderStudents() {
+
+            let q =
+                (
+                    document.getElementById(
+                        "studentSearch"
+                    )?.value || ""
+                ).toLowerCase();
+
+            let gr =
+                document.getElementById(
+                    "studentGrade"
+                )?.value || "";
+
+            let rows =
+                data.students.filter(
+                    s =>
+                        (
+                            !q ||
+                            s.name.toLowerCase().includes(q) ||
+                            s.id.toLowerCase().includes(q)
+                        )
+                        &&
+                        (
+                            !gr ||
+                            s.grade === gr
+                        )
+                );
+
+            document
+                .getElementById("studentTable")
+                .innerHTML =
+                rows.map(
+                    s => `
+
+<tr>
+
+<td>${s.id}</td>
+
+<td>${s.name}</td>
+
+<td>${s.grade}</td>
+
+<td>${s.section}</td>
+
+<td>
+<span class="badge active-status">
+${s.status}
+</span>
+</td>
+
+<td>
+<button
+class="secondary"
+onclick="viewStudent('${s.id}')">
+View
+</button>
+</td>
+
+</tr>
+
+`
+                )
+                    .join("");
+
+        }
+
+
+        function openStudentForm() {
+
+            document
+                .getElementById("studentForm")
+                .classList.remove("hidden");
+
+        }
+
+
+        function closeStudentForm() {
+
+            document
+                .getElementById("studentForm")
+                .classList.add("hidden");
+
+        }
+
+
+        function saveStudent() {
+
+            let s = {
+
+                id: f("fId"),
+
+                name: f("fName"),
+
+                grade: f("fGrade"),
+
+                section: f("fSection"),
+
+                status: "Active",
+
+                contact: f("fContact"),
+
+                guardian: f("fGuardian"),
+
+                username: f("fId").toLowerCase(),
+
+                password: "student123"
+
+            };
+
+            if (!s.id || !s.name) {
+
+                toast(
+                    "Student ID and name are required."
+                );
+
+                return;
+
+            }
+
+            data.students.push(s);
+
+            data.grades[s.id] = [];
+
+            persist();
+
+            closeStudentForm();
+
+            renderAll();
+
+            toast(
+                "Student added successfully."
+            );
+
+        }
+
+
+        function viewStudent(id) {
+
+            let s =
+                data.students.find(
+                    x => x.id === id
+                );
+
+            if (!s)
+                return;
+
+            alert(
+                `Student Profile
+
+ID: ${s.id}
+
+Name: ${s.name}
+
+Grade: ${s.grade}
+
+Section: ${s.section}
+
+Status: ${s.status}
+
+Contact: ${s.contact || "—"}
+
+Guardian: ${s.guardian || "—"}
+
+Student Login:
+Username: ${s.username}
+Password: ${s.password}`
+            );
+
+        }
+
+
+        function f(id) {
+
+            return document
+                .getElementById(id)
+                .value
+                .trim();
+
+        }
+
+
+        /* =========================
+           SELECTS
+        ========================= */
+
+        function populateSelects() {
+
+            ["eStudent", "gradeStudent"]
+                .forEach(id => {
+
+                    let el =
+                        document.getElementById(id);
+
+                    if (!el)
+                        return;
+
+                    let old =
+                        el.value;
+
+                    el.innerHTML =
+                        data.students
+                            .map(
+                                s =>
+                                    `<option value="${s.id}">
+${s.id} — ${s.name}
+</option>`
+                            )
+                            .join("");
+
+                    if (old)
+                        el.value = old;
+
+                });
+
+            if (
+                document.getElementById("eDate") &&
+                !document.getElementById("eDate").value
+            ) {
+
+                document.getElementById("eDate")
+                    .value =
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10);
+
+            }
+
+        }
+
+
+        /* =========================
+           ENROLLMENT
+        ========================= */
+
+        function saveEnrollment() {
+
+            let id =
+                f("eStudent");
+
+            let s =
+                data.students.find(
+                    x => x.id === id
+                );
+
+            data.enrollments.push({
+
+                student: id,
+
+                schoolYear: f("eSY"),
+
+                grade: f("eGrade"),
+
+                strand: f("eStrand"),
+
+                section: f("eSection"),
+
+                date: f("eDate"),
+
+                status: f("eStatus")
+
+            });
+
+            if (s)
+                s.status =
+                    f("eStatus") === "Enrolled"
+                        ? "Active"
+                        : s.status;
+
+            persist();
+
+            renderAll();
+
+            toast(
+                "Enrollment saved."
+            );
+
+        }
+
+
+        function renderEnrollments() {
+
+            document
+                .getElementById("enrollmentTable")
+                .innerHTML =
+                data.enrollments
+                    .map(
+                        e => {
+
+                            let s =
+                                data.students.find(
+                                    x => x.id === e.student
+                                );
+
+                            return `
+
+<tr>
+
+<td>${s?.name || e.student}</td>
+
+<td>${e.schoolYear}</td>
+
+<td>${e.grade}</td>
+
+<td>${e.strand}</td>
+
+<td>${e.section}</td>
+
+<td>
+<span class="badge active-status">
+${e.status}
+</span>
+</td>
+
+</tr>
+
+`;
+
+                        }
+                    )
+                    .join("")
+                ||
+                `
+<tr>
+<td colspan="6">
+No enrollment records yet.
+</td>
+</tr>
+`;
+
+        }
+
+
+        /* =========================
+           GRADES
+        ========================= */
+
+        function renderGrades() {
+
+            let id =
+                document.getElementById(
+                    "gradeStudent"
+                )?.value ||
+                data.students[0]?.id;
+
+            let arr =
+                data.grades[id] || [];
+
+            document
+                .getElementById("gradeTable")
+                .innerHTML =
+                arr.map(
+                    (g, i) => `
+
+<tr>
+
+<td>${g[0]}</td>
+
+${[1, 2, 3, 4]
+                            .map(
+                                j => `
+
+<td>
+
+<input
+type="number"
+min="0"
+max="100"
+value="${g[j]}"
+data-grade="${i}-${j}"
+style="
+width:65px;
+padding:7px;
+border:1px solid var(--border);
+border-radius:7px;
+">
+
+</td>
+
+`
+                            )
+                            .join("")}
+
+<td>
+<b>${calc(g)}</b>
+</td>
+
+<td>
+
+<span class="badge ${statusOf(calc(g)).toLowerCase()}">
+
+${statusOf(calc(g))}
+
+</span>
+
+</td>
+
+</tr>
+
+`
+                )
+                    .join("")
+                ||
+                `
+<tr>
+<td colspan="7">
+No grades recorded.
+</td>
+</tr>
+`;
+
+        }
+
+
+        function saveGrades() {
+
+            let id =
+                document
+                    .getElementById("gradeStudent")
+                    .value;
+
+            let arr =
+                data.grades[id] || [];
+
+            document
+                .querySelectorAll("[data-grade]")
+                .forEach(
+                    inp => {
+
+                        let [i, j] =
+                            inp.dataset.grade
+                                .split("-")
+                                .map(Number);
+
+                        arr[i][j] =
+                            Number(inp.value);
+
+                    }
+                );
+
+            data.grades[id] = arr;
+
+            persist();
+
+            renderAll();
+
+            toast(
+                "Grades updated."
+            );
+
+        }
+
+
+        /* =========================
+           PERFORMANCE
+        ========================= */
+
+        function renderPerformance() {
+
+            let all =
+                Object.values(
+                    data.grades
+                ).flat();
+
+            let finals =
+                all.map(calc);
+
+            let avg =
+                finals.length
+                    ?
+                    (
+                        finals.reduce(
+                            (a, b) => a + b,
+                            0
+                        ) / finals.length
+                    ).toFixed(1)
+                    :
+                    "0.0";
+
+            document
+                .getElementById("performanceSummary")
+                .innerHTML = `
+
+<p>
+<b>General Average:</b>
+${avg}
+</p>
+
+<p>
+<b>Passed Subjects:</b>
+${all.filter(
+                    g => statusOf(calc(g)) === "Passed"
+                ).length}
+</p>
+
+<p>
+<b>Failed Subjects:</b>
+${all.filter(
+                    g => statusOf(calc(g)) === "Failed"
+                ).length}
+</p>
+
+<p>
+<b>Dropped Subjects:</b>
+0
+</p>
+
+`;
+
+            let first =
+                data.grades[
+                data.students[0]?.id
+                ] || [];
+
+            document
+                .getElementById("performanceChart")
+                .innerHTML =
+                first.map(
+                    g =>
+                        `
+<div
+class="bar"
+style="
+height:${Math.max(
+                            10,
+                            calc(g) - 65
+                        ) * 3}px
+"
+title="${g[0]}: ${calc(g)}">
+
+<span>
+${g[0].slice(0, 5)}
+</span>
+
+</div>
+`
+                )
+                    .join("");
+
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        function populateStatusSubjects() {
+
+            let set =
+                [
+                    ...new Set(
+                        Object.values(data.grades)
+                            .flat()
+                            .map(g => g[0])
+                    )
+                ];
+
+            let el =
+                document.getElementById(
+                    "statusSubject"
+                );
+
+            if (!el)
+                return;
+
+            let old =
+                el.value;
+
+            el.innerHTML =
+                "<option value=''>All Subjects</option>"
+                +
+                set.map(
+                    x => `<option>${x}</option>`
+                )
+                    .join("");
+
+            el.value = old;
+
+        }
+
+
+        function renderStatus() {
+
+            let sf =
+                document.getElementById(
+                    "statusFilter"
+                )?.value || "";
+
+            let sub =
+                document.getElementById(
+                    "statusSubject"
+                )?.value || "";
+
+            let rows = [];
+
+            for (let id in data.grades) {
+
+                let s =
+                    data.students.find(
+                        x => x.id === id
+                    );
+
+                for (let g of data.grades[id]) {
+
+                    let st =
+                        statusOf(calc(g));
+
+                    if (
+                        (!sf || st === sf)
+                        &&
+                        (!sub || g[0] === sub)
+                    ) {
+
+                        rows.push(`
+
+<tr>
+
+<td>${s?.name || id}</td>
+
+<td>${g[0]}</td>
+
+<td>${calc(g)}</td>
+
+<td>
+
+<span class="badge ${st.toLowerCase()}">
+${st}
+</span>
+
+</td>
+
+</tr>
+
+`);
+
+                    }
+
+                }
+
+            }
+
+            document
+                .getElementById("statusTable")
+                .innerHTML =
+                rows.join("")
+                ||
+                `
+<tr>
+<td colspan="4">
+No matching records.
+</td>
+</tr>
+`;
+
+        }
+
+
+        /* =========================
+           STUDENT PORTAL HELPERS
+        ========================= */
+
+        function getStudentEnrollment(student) {
+
+            let records =
+                (data.enrollments || []).filter(
+                    e => e.student === student.id
+                );
+
+            if (records.length)
+                return records[records.length - 1];
+
+            return {
+                student: student.id,
+                schoolYear: "2026-2027",
+                grade: student.grade || "—",
+                strand: (student.section || "").toUpperCase().startsWith("HUMSS")
+                    ? "HUMSS"
+                    : "STEM",
+                section: student.section || "—",
+                date: "Not recorded",
+                status: student.status === "Active" ? "Enrolled" : (student.status || "—")
+            };
+
+        }
+
+
+        function renderStudentProfilePage() {
+
+            if (!currentStudent) return;
+
+            document.getElementById("myProfileDetails").innerHTML = `
+<div class="profile-item"><small>Student ID</small><strong>${currentStudent.id}</strong></div>
+<div class="profile-item"><small>Full Name</small><strong>${currentStudent.name}</strong></div>
+<div class="profile-item"><small>Username</small><strong>${currentStudent.username}</strong></div>
+<div class="profile-item"><small>Grade Level</small><strong>${currentStudent.grade}</strong></div>
+<div class="profile-item"><small>Section</small><strong>${currentStudent.section}</strong></div>
+<div class="profile-item"><small>Status</small><strong>${currentStudent.status}</strong></div>
+<div class="profile-item"><small>Contact</small><strong>${currentStudent.contact || "—"}</strong></div>
+<div class="profile-item"><small>Guardian</small><strong>${currentStudent.guardian || "—"}</strong></div>
+`;
+
+        }
+
+
+        function renderStudentEnrollment() {
+
+            if (!currentStudent) return;
+
+            let e = getStudentEnrollment(currentStudent);
+
+            document.getElementById("myEnrollmentDetails").innerHTML = `
+<div class="portal-card"><small>School Year</small><strong>${e.schoolYear || "—"}</strong></div>
+<div class="portal-card"><small>Student ID</small><strong>${currentStudent.id}</strong></div>
+<div class="portal-card"><small>Grade Level</small><strong>${e.grade || currentStudent.grade || "—"}</strong></div>
+<div class="portal-card"><small>Strand</small><strong>${e.strand || "—"}</strong></div>
+<div class="portal-card"><small>Section</small><strong>${e.section || currentStudent.section || "—"}</strong></div>
+<div class="portal-card"><small>Enrollment Date</small><strong>${e.date || "Not recorded"}</strong></div>
+<div class="portal-card"><small>Status</small><strong>${e.status || "—"}</strong></div>
+`;
+
+        }
+
+
+        function renderStudentSubjects() {
+
+            if (!currentStudent) return;
+
+            let grades = data.grades[currentStudent.id] || [];
+
+            document.getElementById("mySubjectsTable").innerHTML =
+                grades.map(g => {
+                    let st = statusOf(calc(g));
+                    return `
+<tr>
+<td>${g[0]}</td>
+<td><b>${calc(g)}</b></td>
+<td><span class="badge ${st.toLowerCase()}">${st}</span></td>
+</tr>
+`;
+                }).join("") || `
+<tr><td colspan="3">No subjects available.</td></tr>
+`;
+
+        }
+
+
+        function renderStudentSchedule() {
+
+            if (!currentStudent) return;
+
+            let grades = data.grades[currentStudent.id] || [];
+            let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+            let times = ["7:30 AM - 8:30 AM", "8:30 AM - 9:30 AM", "9:30 AM - 10:30 AM", "10:30 AM - 11:30 AM", "1:00 PM - 2:00 PM", "2:00 PM - 3:00 PM", "3:00 PM - 4:00 PM", "4:00 PM - 5:00 PM"];
+
+            document.getElementById("myScheduleTable").innerHTML =
+                grades.map((g, i) => `
+<tr>
+<td>${g[0]}</td>
+<td>${days[i % days.length]}</td>
+<td>${times[i % times.length]}</td>
+<td>${currentStudent.section || "TBA"}</td>
+<td>To be assigned</td>
+</tr>
+`).join("") || `
+<tr><td colspan="5">No class schedule available.</td></tr>
+`;
+
+        }
+
+
+        function printStudentReport(name) {
+
+            if (!currentStudent) return;
+
+            let grades = data.grades[currentStudent.id] || [];
+            let enrollment = getStudentEnrollment(currentStudent);
+            let average = grades.length
+                ? (grades.map(calc).reduce((a, b) => a + b, 0) / grades.length).toFixed(2)
+                : "0.00";
+
+            let w = window.open("", "_blank");
+
+            if (!w) {
+                toast("Please allow pop-ups to print reports.");
+                return;
+            }
+
+            w.document.write(`
+<html><head><title>${name}</title>
+<style>
+body{font-family:Arial;padding:30px;color:#303030}h1,h2{color:#a90912}table{width:100%;border-collapse:collapse;margin-top:20px}th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left} .box{display:grid;grid-template-columns:1fr 1fr;gap:10px}.box div{padding:10px;border:1px solid #ddd}
+</style></head><body>
+<h1>e-scuela</h1>
+<h2>${name}</h2>
+<p>Escuela de Nuestra Señora de la Salette</p>
+<p><b>Student:</b> ${currentStudent.name} &nbsp; <b>ID:</b> ${currentStudent.id}</p>
+<p><b>School Year:</b> ${enrollment.schoolYear}</p>
+${name === "My Enrollment Report" ? `
+<div class="box">
+<div><b>Grade Level</b><br>${enrollment.grade}</div>
+<div><b>Strand</b><br>${enrollment.strand}</div>
+<div><b>Section</b><br>${enrollment.section}</div>
+<div><b>Enrollment Date</b><br>${enrollment.date}</div>
+<div><b>Status</b><br>${enrollment.status}</div>
+</div>` : ""}
+${name !== "My Enrollment Report" ? `
+<table><tr><th>Subject</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>Final</th><th>Status</th></tr>
+${grades.map(g => `<tr><td>${g[0]}</td><td>${g[1]}</td><td>${g[2]}</td><td>${g[3]}</td><td>${g[4]}</td><td>${calc(g)}</td><td>${statusOf(calc(g))}</td></tr>`).join("")}
+</table>
+<p><b>General Average:</b> ${average}</p>` : ""}
+<script>window.print()<\/script></body></html>`);
+            w.document.close();
+
+        }
+
+
+        /* =========================
+           STUDENT PORTAL
+        ========================= */
+
+        function renderStudentPortal() {
+
+            if (!currentStudent)
+                return;
+
+            renderStudentProfilePage();
+            renderStudentEnrollment();
+            renderStudentSubjects();
+            renderStudentSchedule();
+
+            let id =
+                currentStudent.id;
+
+            let grades =
+                data.grades[id] || [];
+
+            document
+                .getElementById("studentWelcomeName")
+                .textContent =
+                "Welcome, " +
+                currentStudent.name;
+
+
+            document
+                .getElementById("studentProfile")
+                .innerHTML = `
+
+<div class="profile-item">
+<small>Student ID</small>
+<strong>${currentStudent.id}</strong>
 </div>
 
-<div id="app" class="app hidden">
-<aside class="sidebar">
-  <div class="brand"><div class="logo">e</div><div><strong>e-scuela</strong><small>School Management</small></div></div>
-  <div class="nav">
-    <button data-page="dashboard" onclick="showPage('dashboard')">▦ <span>Dashboard</span></button>
-    <button data-page="students" onclick="showPage('students')">♙ <span>Student Information</span></button>
-    <button data-page="enrollment" onclick="showPage('enrollment')">▤ <span>Enrollment</span></button>
-    <button data-page="grades" onclick="showPage('grades')">✓ <span>Grades</span></button>
-    <button data-page="performance" onclick="showPage('performance')">◒ <span>Academic Performance</span></button>
-    <button data-page="status" onclick="showPage('status')">● <span>Subject Status</span></button>
-    <button data-page="reports" onclick="showPage('reports')">▥ <span>Reports</span></button>
-    <button data-page="users" onclick="showPage('users')">♙ <span>User Management</span></button>
-    <button data-page="settings" onclick="showPage('settings')">⚙ <span>Settings</span></button>
-    <button class="logout" onclick="logout()">↪ <span>Logout</span></button>
-  </div>
-</aside>
-
-<main class="main">
-<div class="top"><h2 id="pageTitle">Dashboard</h2><div class="user">Logged in as <b>Administrator</b></div></div>
-
-<section id="dashboard" class="page">
-  <div class="cards">
-    <div class="card"><div class="label">Total Students</div><div class="value" id="totalStudents">0</div></div>
-    <div class="card"><div class="label">Enrolled Students</div><div class="value" id="enrolledStudents">0</div></div>
-    <div class="card"><div class="label">Graduating Students</div><div class="value" id="graduatingStudents">0</div></div>
-    <div class="card"><div class="label">Failed Subjects</div><div class="value" id="failedCount">0</div></div>
-    <div class="card"><div class="label">Dropped Subjects</div><div class="value" id="droppedCount">0</div></div>
-  </div>
-  <div class="grid2">
-    <div class="panel"><h3>Recent Students</h3><div id="recentStudents"></div></div>
-    <div class="panel"><h3>System Overview</h3><p style="color:var(--muted)">e-scuela centralizes student profiles, enrollment, grades, academic performance, subject status, and reports for authorized school personnel.</p><button class="primary" onclick="showPage('students')">Manage Students</button></div>
-  </div>
-</section>
-
-<section id="students" class="page hidden">
-<div class="panel">
-<div class="section-head"><h3>Student Information</h3><button class="primary" onclick="openStudentForm()">+ Add Student</button></div>
-<div class="filters"><input id="studentSearch" placeholder="Search name or ID..." oninput="renderStudents()"><select id="studentGrade" onchange="renderStudents()"><option value="">All Grade Levels</option><option>Grade 11</option><option>Grade 12</option></select></div>
-<div class="table-wrap"><table><thead><tr><th>Student ID</th><th>Name</th><th>Grade/Year</th><th>Section</th><th>Status</th><th>Action</th></tr></thead><tbody id="studentTable"></tbody></table></div>
+<div class="profile-item">
+<small>Full Name</small>
+<strong>${currentStudent.name}</strong>
 </div>
-<div id="studentForm" class="panel hidden"><h3>Add Student</h3><div class="form-grid">
-<div class="field"><label>Student ID</label><input id="fId"></div><div class="field"><label>Full Name</label><input id="fName"></div>
-<div class="field"><label>Grade/Year</label><select id="fGrade"><option>Grade 11</option><option>Grade 12</option></select></div><div class="field"><label>Section</label><input id="fSection"></div>
-<div class="field"><label>Contact</label><input id="fContact"></div><div class="field"><label>Guardian</label><input id="fGuardian"></div>
-</div><div class="actions"><button class="primary" onclick="saveStudent()">Save Student</button><button class="secondary" onclick="closeStudentForm()">Cancel</button></div></div>
-</section>
 
-<section id="enrollment" class="page hidden"><div class="panel"><div class="section-head"><h3 style="font-size:30px">Enrollment</h3><button class="primary" onclick="saveEnrollment()">Save Enrollment</button></div>
-<div class="form-grid">
-<div class="field"><label>Student</label><select id="eStudent"></select></div><div class="field"><label>School Year</label><input id="eSY" value="2026-2027"></div>
-<div class="field"><label>Grade/Year Level</label><select id="eGrade"><option>Grade 11</option><option>Grade 12</option></select></div><div class="field"><label>Strand/Course</label><input id="eStrand" value="STEM"></div>
-<div class="field"><label>Section</label><input id="eSection" value="STEM-A"></div><div class="field"><label>Enrollment Date</label><input id="eDate" type="date"></div>
-<div class="field"><label>Enrollment Status</label><select id="eStatus"><option>Enrolled</option><option>Pending</option><option>Dropped</option></select></div>
-</div></div>
-<div class="panel"><h3>Enrollment Records</h3><div class="table-wrap"><table><thead><tr><th>Student</th><th>School Year</th><th>Grade</th><th>Strand</th><th>Section</th><th>Status</th></tr></thead><tbody id="enrollmentTable"></tbody></table></div></div></section>
+<div class="profile-item">
+<small>Grade Level</small>
+<strong>${currentStudent.grade}</strong>
+</div>
 
-<section id="grades" class="page hidden"><div class="panel"><div class="section-head"><h3>Grades Management</h3><select id="gradeStudent" onchange="renderGrades()"></select></div>
-<div class="table-wrap"><table><thead><tr><th>Subject</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>Final</th><th>Status</th></tr></thead><tbody id="gradeTable"></tbody></table></div>
-<div class="actions"><button class="primary" onclick="saveGrades()">Save Grades</button><button class="secondary" onclick="showPage('status')">View Subject Status</button></div></div></section>
+<div class="profile-item">
+<small>Section</small>
+<strong>${currentStudent.section}</strong>
+</div>
 
-<section id="performance" class="page hidden"><div class="grid2"><div class="panel"><h3>Academic Summary</h3><div id="performanceSummary"></div></div><div class="panel"><h3>Performance by Subject</h3><div id="performanceChart" class="chart"></div></div></div></section>
+<div class="profile-item">
+<small>Status</small>
+<strong>${currentStudent.status}</strong>
+</div>
 
-<section id="status" class="page hidden"><div class="panel"><div class="section-head"><h3>Subject Status</h3><div class="filters"><select id="statusFilter" onchange="renderStatus()"><option value="">All Status</option><option>Passed</option><option>Failed</option><option>Dropped</option></select><select id="statusSubject" onchange="renderStatus()"><option value="">All Subjects</option></select></div></div>
-<div class="table-wrap"><table><thead><tr><th>Student</th><th>Subject</th><th>Final Grade</th><th>Status</th></tr></thead><tbody id="statusTable"></tbody></table></div></div></section>
+<div class="profile-item">
+<small>Contact</small>
+<strong>${currentStudent.contact}</strong>
+</div>
 
-<section id="reports" class="page hidden"><div class="panel"><h3>Reports</h3><div class="report-list">
-<div class="report"><span>Student Academic Report</span><button class="secondary" onclick="printReport('Student Academic Report')">View / Print</button></div>
-<div class="report"><span>Enrollment Report</span><button class="secondary" onclick="printReport('Enrollment Report')">View / Print</button></div>
-<div class="report"><span>Grade Report</span><button class="secondary" onclick="printReport('Grade Report')">View / Print</button></div>
-<div class="report"><span>Passed / Failed / Dropped Subjects</span><button class="secondary" onclick="printReport('Subject Status Report')">View / Print</button></div>
-<div class="report"><span>Student Masterlist</span><button class="secondary" onclick="printReport('Student Masterlist')">View / Print</button></div>
-</div></div></section>
+`;
 
-<section id="users" class="page hidden"><div class="panel"><h3>User Management</h3><p style="color:var(--muted)">Prototype access control.</p><table><tr><th>Username</th><th>Role</th><th>Status</th></tr><tr><td>admin</td><td>Administrator</td><td><span class="badge passed">Active</span></td></tr><tr><td>registrar</td><td>Authorized Personnel</td><td><span class="badge passed">Active</span></td></tr></table></div></section>
+            let finals =
+                grades.map(calc);
 
-<section id="settings" class="page hidden"><div class="panel"><h3>Settings</h3><div class="form-grid"><div class="field"><label>School Name</label><input value="Escuela de Nuestra Señora de la Salette"></div><div class="field"><label>Current School Year</label><input value="2026-2027"></div></div><button class="primary" onclick="toast('Settings saved in prototype.')">Save Settings</button></div></section>
-</main></div>
-<div id="toast" class="toast"></div>
+            let average =
+                finals.length
+                    ?
+                    (
+                        finals.reduce(
+                            (a, b) => a + b,
+                            0
+                        ) / finals.length
+                    ).toFixed(2)
+                    :
+                    "0.00";
+
+            let passed =
+                grades.filter(
+                    g => statusOf(calc(g)) === "Passed"
+                ).length;
+
+            let failed =
+                grades.filter(
+                    g => statusOf(calc(g)) === "Failed"
+                ).length;
+
+
+            document
+                .getElementById("mySummary")
+                .innerHTML = `
+
+<p>
+<b>General Average:</b>
+${average}
+</p>
+
+<p>
+<b>Total Subjects:</b>
+${grades.length}
+</p>
+
+<p>
+<b>Passed:</b>
+${passed}
+</p>
+
+<p>
+<b>Failed:</b>
+${failed}
+</p>
+
+<p>
+<b>School Year:</b>
+2026-2027
+</p>
+
+`;
+
+
+            /* STUDENT GRADES */
+
+            document
+                .getElementById("myGradeTable")
+                .innerHTML =
+                grades.map(
+                    g => `
+
+<tr>
+
+<td>${g[0]}</td>
+
+<td>${g[1]}</td>
+
+<td>${g[2]}</td>
+
+<td>${g[3]}</td>
+
+<td>${g[4]}</td>
+
+<td>
+<b>${calc(g)}</b>
+</td>
+
+<td>
+
+<span class="badge ${statusOf(calc(g)).toLowerCase()}">
+
+${statusOf(calc(g))}
+
+</span>
+
+</td>
+
+</tr>
+
+`
+                )
+                    .join("")
+                ||
+                `
+<tr>
+<td colspan="7">
+No grades available.
+</td>
+</tr>
+`;
+
+
+            /* STUDENT PERFORMANCE */
+
+            document
+                .getElementById("myPerformanceSummary")
+                .innerHTML = `
+
+<p>
+<b>General Average:</b>
+${average}
+</p>
+
+<p>
+<b>Passed Subjects:</b>
+${passed}
+</p>
+
+<p>
+<b>Failed Subjects:</b>
+${failed}
+</p>
+
+<p>
+<b>Academic Status:</b>
+${average >= 75
+                    ?
+                    "Good Standing"
+                    :
+                    "Needs Improvement"
+                }
+</p>
+
+`;
+
+
+            document
+                .getElementById("myPerformanceChart")
+                .innerHTML =
+                grades.map(
+                    g => `
+
+<div
+class="bar"
+style="
+height:${Math.max(
+                        10,
+                        calc(g) - 65
+                    ) * 3}px
+"
+title="${g[0]}: ${calc(g)}">
+
+<span>
+${g[0].slice(0, 5)}
+</span>
+
+</div>
+
+`
+                )
+                    .join("");
+
+
+            /* STUDENT STATUS */
+
+            document
+                .getElementById("myStatusTable")
+                .innerHTML =
+                grades.map(
+                    g => {
+
+                        let st =
+                            statusOf(calc(g));
+
+                        return `
+
+<tr>
+
+<td>${g[0]}</td>
+
+<td>${calc(g)}</td>
+
+<td>
+
+<span class="badge ${st.toLowerCase()}">
+
+${st}
+
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+                    }
+                )
+                    .join("")
+                ||
+                `
+<tr>
+<td colspan="3">
+No subject records available.
+</td>
+</tr>
+`;
+
+        }
+
+
+        /* =========================
+           REPORTS
+        ========================= */
+
+        function printReport(name) {
+
+            let w =
+                window.open(
+                    "",
+                    "_blank"
+                );
+
+            if (!w) {
+
+                toast("Please allow pop-ups to print reports.");
+
+                return;
+
+            }
+
+            w.document.write(`
+
+<html>
+
+<head>
+
+<title>${name}</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px
+}
+
+h1{
+color:#a90912
+}
+
+table{
+width:100%;
+border-collapse:collapse
+}
+
+th,td{
+padding:9px;
+border-bottom:1px solid #ddd;
+text-align:left
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>e-scuela</h1>
+
+<h2>${name}</h2>
+
+<p>
+Escuela de Nuestra Señora de la Salette
+</p>
+
+<p>
+School Year 2026-2027
+</p>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>Student</th>
+<th>Grade</th>
+<th>Section</th>
+<th>Status</th>
+
+</tr>
+
+${data.students.map(
+                s => `
+
+<tr>
+
+<td>${s.id}</td>
+<td>${s.name}</td>
+<td>${s.grade}</td>
+<td>${s.section}</td>
+<td>${s.status}</td>
+
+</tr>
+
+`
+            )
+                    .join("")}
+
+</table>
 
 <script>
-const defaultData={
-students:[
-{id:"2026-001",name:"Juan Dela Cruz",grade:"Grade 12",section:"STEM-A",status:"Active",contact:"09123456789",guardian:"Ana Dela Cruz"},
-{id:"2026-002",name:"Maria Santos",grade:"Grade 11",section:"HUMSS-A",status:"Active",contact:"09987654321",guardian:"Pedro Santos"},
-{id:"2026-003",name:"Carlo Reyes",grade:"Grade 12",section:"STEM-A",status:"Active",contact:"09112223344",guardian:"Liza Reyes"}
-],
-enrollments:[],
-grades:{
-"2026-001":[["Mathematics",88,90,89,91],["English",91,90,92,93],["Science",90,91,89,92],["Filipino",92,91,90,93],["PE",95,94,96,95],["ICT",89,90,91,90],["Research",90,92,91,93],["History",78,80,79,81]],
-"2026-002":[["Mathematics",85,87,88,86],["English",90,91,92,91],["Science",88,89,90,91],["Filipino",91,90,92,93],["PE",94,95,94,96],["ICT",89,88,90,91],["History",86,87,88,89]],
-"2026-003":[["Mathematics",92,91,93,94],["English",90,92,91,93],["Science",94,93,95,94],["Filipino",91,92,90,93],["PE",96,95,97,96],["ICT",93,92,94,95]]
-}};
-let data=JSON.parse(localStorage.getItem("eScuelaData")||"null")||defaultData;
-function persist(){localStorage.setItem("eScuelaData",JSON.stringify(data))}
-function login(){if(document.getElementById("username").value==="admin"&&document.getElementById("password").value==="admin123"){document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");showPage("dashboard")}else document.getElementById("loginError").textContent="Invalid demo credentials."}
-function logout(){document.getElementById("app").classList.add("hidden");document.getElementById("login").classList.remove("hidden")}
-const titles={dashboard:"Dashboard",students:"Student Information",enrollment:"Enrollment",grades:"Grades",performance:"Academic Performance",status:"Subject Status",reports:"Reports",users:"User Management",settings:"Settings"};
-function showPage(page){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));document.getElementById(page).classList.remove("hidden");document.getElementById("pageTitle").textContent=titles[page];document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===page));renderAll()}
-function statusOf(g){if(g===null||g==="")return "Pending";if(g>=75)return "Passed";return "Failed"}
-function renderAll(){renderDashboard();renderStudents();populateSelects();renderEnrollments();renderGrades();renderPerformance();populateStatusSubjects();renderStatus()}
-function renderDashboard(){document.getElementById("totalStudents").textContent=data.students.length;document.getElementById("enrolledStudents").textContent=data.students.filter(s=>s.status==="Active").length;document.getElementById("graduatingStudents").textContent=data.students.filter(s=>s.grade==="Grade 12").length;let all=Object.values(data.grades).flat();document.getElementById("failedCount").textContent=all.filter(g=>statusOf(Math.round(g.slice(1).reduce((a,b)=>a+b,0)/4))==="Failed").length;document.getElementById("droppedCount").textContent=0;document.getElementById("recentStudents").innerHTML=data.students.slice(-3).reverse().map(s=>`<p><b>${s.name}</b><br><small>${s.id} • ${s.grade} • ${s.section}</small></p>`).join("")}
-function renderStudents(){let q=(document.getElementById("studentSearch")?.value||"").toLowerCase(),gr=document.getElementById("studentGrade")?.value||"";let rows=data.students.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.id.toLowerCase().includes(q))&&(!gr||s.grade===gr));document.getElementById("studentTable").innerHTML=rows.map(s=>`<tr><td>${s.id}</td><td>${s.name}</td><td>${s.grade}</td><td>${s.section}</td><td><span class="badge active-status">${s.status}</span></td><td><button class="secondary" onclick="viewStudent('${s.id}')">View</button></td></tr>`).join("")}
-function openStudentForm(){document.getElementById("studentForm").classList.remove("hidden")}
-function closeStudentForm(){document.getElementById("studentForm").classList.add("hidden")}
-function saveStudent(){let s={id:f("fId"),name:f("fName"),grade:f("fGrade"),section:f("fSection"),status:"Active",contact:f("fContact"),guardian:f("fGuardian")};if(!s.id||!s.name){toast("Student ID and name are required.");return}data.students.push(s);data.grades[s.id]=[];persist();closeStudentForm();renderAll();toast("Student added successfully.")}
-function viewStudent(id){let s=data.students.find(x=>x.id===id);alert(`Student Profile\\n\\nID: ${s.id}\\nName: ${s.name}\\nGrade: ${s.grade}\\nSection: ${s.section}\\nStatus: ${s.status}\\nContact: ${s.contact||"—"}\\nGuardian: ${s.guardian||"—"}`)}
-function f(id){return document.getElementById(id).value.trim()}
-function populateSelects(){["eStudent","gradeStudent"].forEach(id=>{let el=document.getElementById(id),old=el.value;el.innerHTML=data.students.map(s=>`<option value="${s.id}">${s.id} — ${s.name}</option>`).join("");if(old)el.value=old});if(document.getElementById("eDate")&&!document.getElementById("eDate").value)document.getElementById("eDate").value=new Date().toISOString().slice(0,10)}
-function saveEnrollment(){let id=f("eStudent"),s=data.students.find(x=>x.id===id);data.enrollments.push({student:id,schoolYear:f("eSY"),grade:f("eGrade"),strand:f("eStrand"),section:f("eSection"),date:f("eDate"),status:f("eStatus")});if(s)s.status=f("eStatus")==="Enrolled"?"Active":s.status;persist();renderAll();toast("Enrollment saved.")}
-function renderEnrollments(){document.getElementById("enrollmentTable").innerHTML=data.enrollments.map(e=>{let s=data.students.find(x=>x.id===e.student);return `<tr><td>${s?.name||e.student}</td><td>${e.schoolYear}</td><td>${e.grade}</td><td>${e.strand}</td><td>${e.section}</td><td><span class="badge active-status">${e.status}</span></td></tr>`}).join("")||"<tr><td colspan='6'>No enrollment records yet.</td></tr>"}
-function calc(g){let vals=g.slice(1).map(Number);return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length)}
-function renderGrades(){let id=document.getElementById("gradeStudent")?.value||data.students[0]?.id;let arr=data.grades[id]||[];document.getElementById("gradeTable").innerHTML=arr.map((g,i)=>`<tr><td>${g[0]}</td>${[1,2,3,4].map(j=>`<td><input type="number" min="0" max="100" value="${g[j]}" data-grade="${i}-${j}" style="width:65px;padding:7px;border:1px solid var(--border);border-radius:7px"></td>`).join("")}<td><b>${calc(g)}</b></td><td><span class="badge ${statusOf(calc(g)).toLowerCase()}">${statusOf(calc(g))}</span></td></tr>`).join("")||"<tr><td colspan='7'>No grades recorded for this student.</td></tr>"}
-function saveGrades(){let id=document.getElementById("gradeStudent").value,arr=data.grades[id]||[];document.querySelectorAll("[data-grade]").forEach(inp=>{let [i,j]=inp.dataset.grade.split("-").map(Number);arr[i][j]=Number(inp.value)});data.grades[id]=arr;persist();renderAll();toast("Grades updated and final grades recalculated.")}
-function renderPerformance(){let all=Object.values(data.grades).flat(),finals=all.map(calc);let avg=finals.length?(finals.reduce((a,b)=>a+b,0)/finals.length).toFixed(1):"0.0";document.getElementById("performanceSummary").innerHTML=`<p><b>General Average:</b> ${avg}</p><p><b>Passed Subjects:</b> ${all.filter(g=>statusOf(calc(g))==="Passed").length}</p><p><b>Failed Subjects:</b> ${all.filter(g=>statusOf(calc(g))==="Failed").length}</p><p><b>Dropped Subjects:</b> 0</p>`;let first=data.grades[data.students[0]?.id]||[];document.getElementById("performanceChart").innerHTML=first.map(g=>`<div class="bar" style="height:${Math.max(10,calc(g)-65)*3}px" title="${g[0]}: ${calc(g)}"><span>${g[0].slice(0,5)}</span></div>`).join("")}
-function populateStatusSubjects(){let set=[...new Set(Object.values(data.grades).flat().map(g=>g[0]))],el=document.getElementById("statusSubject"),old=el.value;el.innerHTML="<option value=''>All Subjects</option>"+set.map(x=>`<option>${x}</option>`).join("");el.value=old}
-function renderStatus(){let sf=document.getElementById("statusFilter")?.value||"",sub=document.getElementById("statusSubject")?.value||"",rows=[];for(let id in data.grades){let s=data.students.find(x=>x.id===id);for(let g of data.grades[id]){let st=statusOf(calc(g));if((!sf||st===sf)&&(!sub||g[0]===sub))rows.push(`<tr><td>${s?.name||id}</td><td>${g[0]}</td><td>${calc(g)}</td><td><span class="badge ${st.toLowerCase()}">${st}</span></td></tr>`)}}document.getElementById("statusTable").innerHTML=rows.join("")||"<tr><td colspan='4'>No matching records.</td></tr>"}
-function printReport(name){let w=window.open("","_blank");w.document.write(`<html><head><title>${name}</title><style>body{font-family:Arial;padding:30px}h1{color:#17324d}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}</style></head><body><h1>e-scuela</h1><h2>${name}</h2><p>Escuela de Nuestra Señora de la Salette • School Year 2026-2027</p><table><tr><th>ID</th><th>Student</th><th>Grade</th><th>Section</th><th>Status</th></tr>${data.students.map(s=>`<tr><td>${s.id}</td><td>${s.name}</td><td>${s.grade}</td><td>${s.section}</td><td>${s.status}</td></tr>`).join("")}</table><script>window.print()<\/script></body></html>`);w.document.close()}
-function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
-renderAll();
-</script>
+window.print()
+<\/script>
+
 </body>
+
+</html>
+
+`);
+
+            w.document.close();
+
+        }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        function logout() {
+
+            currentUser = null;
+            currentStudent = null;
+            loginType = "faculty";
+
+            document
+                .getElementById("app")
+                .classList.add("hidden");
+
+            document
+                .getElementById("login")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("username")
+                .value = "";
+
+            document
+                .getElementById("password")
+                .value = "";
+
+            document
+                .getElementById("loginError")
+                .textContent = "";
+
+            selectLoginType("faculty");
+
+        }
+
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        function toast(msg) {
+
+            let t =
+                document.getElementById("toast");
+
+            t.textContent = msg;
+
+            t.classList.add("show");
+
+            setTimeout(
+                () => t.classList.remove("show"),
+                2200
+            );
+
+        }
+
+
+        /* =========================
+           RENDER ALL
+        ========================= */
+
+        function renderAll() {
+
+            renderDashboard();
+
+            renderStudents();
+
+            populateSelects();
+
+            renderEnrollments();
+
+            renderGrades();
+
+            renderPerformance();
+
+            populateStatusSubjects();
+
+            renderStatus();
+
+        }
+
+
+        /* =========================
+           START
+        ========================= */
+
+        renderAll();
+
+    </script>
+
+</body>
+
 </html>
